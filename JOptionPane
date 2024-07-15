@@ -1,0 +1,29 @@
+package com.conversordemoedas;
+
+import javax.swing.JOptionPane;
+
+public class Main {
+    public static void main(String[] args) {
+        String nome = JOptionPane.showInputDialog("Por favor, insira seu nome:");
+        TextMenu menu = new TextMenu(nome);
+        
+        boolean continuar = true;
+        while (continuar) {
+            String opcao = JOptionPane.showInputDialog(menu.getMenuText());
+            switch (opcao) {
+                case "1":
+                    String valor = JOptionPane.showInputDialog("Digite o valor a ser convertido:");
+                    String moedaOrigem = JOptionPane.showInputDialog("Digite a moeda de origem (código):");
+                    String moedaDestino = JOptionPane.showInputDialog("Digite a moeda de destino (código):");
+                    Conversor conversor = new Conversor();
+                    conversor.converter(Double.parseDouble(valor), moedaOrigem, moedaDestino);
+                    break;
+                case "2":
+                    continuar = false;
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Opção inválida. Tente novamente.");
+            }
+        }
+    }
+}
