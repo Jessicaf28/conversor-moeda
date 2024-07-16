@@ -1,0 +1,45 @@
+package com.conversordemoedas;
+
+import com.google.gson.Gson;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+public class Conversor {
+
+    private static final String API_KEY = "YOUR_API_KEY"; // Substitua pela sua chave da API
+    private static final String API_URL = "https://v6.exchangerate-api.com/v6/" + API_KEY + "/pair/";
+
+    public void converter(double valor, String moedaOrigem, String moedaDestino) {
+        try {
+            String url = API_URL + moedaOrigem + "/" + moedaDestino + "/" + valor;
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            Gson gson = new Gson();
+            Moeda moeda = gson.fromJson(response.body(), Moeda.class);
+            moeda.setAmount(valor);
+
+            salvarResultadoComoJson(moeda);
+
+            JOptionPane.showMessageDialog(null, "Conversão realizada: " + moeda.getConversionResult());
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void salvarResultadoComoJson(Moeda moeda) {
+        try (FileWriter writer = new FileWriter("resultadoConversao.json")) {
+            Gson gson = new Gson();
+            gson.toJson(moeda, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
