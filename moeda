@@ -1,0 +1,33 @@
+package com.conversordemoedas;
+
+public class Moeda {
+    private String base_code;
+    private String target_code;
+    private double conversion_rate;
+    private double conversion_result;
+    private double amount;
+
+    public String getBaseCode() {
+        return base_code;
+    }
+
+    public String getTargetCode() {
+        return target_code;
+    }
+
+    public double getConversionRate() {
+        return conversion_rate;
+    }
+
+    public double getConversionResult() {
+        return conversion_result;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+}
